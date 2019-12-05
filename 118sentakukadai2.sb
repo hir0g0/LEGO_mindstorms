@@ -1,0 +1,30 @@
+Sensor.SetMode(4,0)
+distance = 0
+
+While "True"
+  LCD.StopUpdate()
+  LCD.Clear()
+  
+  distance = Sensor.ReadRawValue(4,0)
+  LCD.Text(1, 0, 20, 1, "Distance="+distance+"cm")
+  LCD.Update()
+  
+  If distance < 200 Then
+    LCD.Text(1, 0, 10, 1, "backward")
+    LCD.Update()
+    Motor.Start("BC", -20)
+  ElseIf distance >= 200 Then
+    If distance <= 300 Then
+      LCD.Text(1, 0, 10, 1, "stop")
+      LCD.Update()
+      Motor.Start("BC", 0)
+    ElseIf distance > 300 Then
+      LCD.Text(1, 0, 10, 1, "forward")
+      LCD.Update()
+      Motor.Start("BC", 20)
+    EndIf
+  EndIf
+  Program.Delay(80)
+  
+EndWhile
+

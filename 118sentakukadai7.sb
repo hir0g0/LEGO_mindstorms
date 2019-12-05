@@ -1,0 +1,37 @@
+count = 0
+totalcount = 0
+touchvalue = 0
+diameter_tire = 55
+diameter_axletree = 120
+
+While "True"
+  LCD.StopUpdate()
+  LCD.Clear()
+
+  Speaker.Tone(1, 880, 10000)
+  Beep = Speaker.IsBusy()
+  While Beep = "True" 
+    touchvalue = Sensor.ReadPercent(1)
+    If touchvalue = 100 Then
+      While Sensor.ReadPercent(1) > 50 
+      EndWhile
+
+      count = count + 1
+      LCD.Text(1, 0, 10, 2, "count= "+count)
+      LCD.Update()
+    EndIf
+  EndWhile
+
+  totalcount = totalcount + count
+  LCD.Text(1, 0, 20, 2, "totalcount= "+totalcount)
+  LCD.Update()
+
+  degree = 90 * count
+  rotate = (degree * diameter_axletree) / diameter_tire
+  Motor.MoveSync("BC", 20, -20, rotate, "True")
+  Motor.Start("BC", 20)
+  Program.Delay(1000 * count)
+
+  Motor.Stop("BC", "True")
+EndWhile
+

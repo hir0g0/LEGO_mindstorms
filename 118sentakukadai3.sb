@@ -1,0 +1,24 @@
+Sensor.SetMode(3,0)
+
+light = 0
+diameter_axletree = 120
+diameter_tire = 55
+degree = 30
+rotate = (degree * diameter_axletree) / diameter_tire
+
+While "True"
+  light = Sensor.ReadPercent(3)
+  
+  Motor.Start("BC", 20)
+  
+  If light < 10 Then
+    Motor.Start("BC", 0)
+    Program.Delay(10)
+    Motor.Start("BC", -20)
+    Program.Delay(200)
+    Motor.MoveSync("BC", -20, 20, rotate, "True")
+    Program.Delay(10)
+  EndIf
+  Program.Delay(50)
+EndWhile
+

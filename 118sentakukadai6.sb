@@ -1,0 +1,20 @@
+diameter_tire = 55
+diameter_axletree = 120
+degree = 90
+i = 1
+
+tire_rotate = 36000 / (diameter_tire * 3.1415)
+rotate = (degree * diameter_axletree) / diameter_tire
+
+While "True"
+  For j = 1 To 2
+    For k = 1 To i
+      Motor.MoveSync("BC", 20, 20, tire_rotate, "True")
+      Program.Delay(50)
+    EndFor
+    Motor.MoveSync("BC", 20, -20, rotate, "True")
+    Program.Delay(50)
+   EndFor
+   i = i + 1
+EndWhile
+

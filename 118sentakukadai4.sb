@@ -1,0 +1,27 @@
+Sensor.SetMode(4,0)
+diameter_axletree = 120
+diameter_tire = 55
+
+While "True"
+  degree = 90
+  rotate = (degree * diameter_axletree) / diameter_tire
+  distance = Sensor.ReadRawValue(4,0)
+  Motor.Start("BC", 20)
+  
+  If distance < 80 Then
+    Motor.MoveSync("BC", 20, -20, rotate, "True")
+    Program.Delay(50)
+    
+    distance = Sensor.ReadRawValue(4,0)
+    If distance < 100 Then
+      degree = 180
+      rotate = (degree * diameter_axletree) / diameter_tire
+      Motor.MoveSync("BC", -20, 20, rotate, "True")
+      Program.Delay(50)
+    EndIf
+  EndIf
+  Program.Delay(80)
+  
+EndWhile
+  
+  

@@ -1,0 +1,22 @@
+Sensor.SetMode(3,0)
+speed = 20
+ratio = 0
+
+While "True"
+  
+  position = Sensor.ReadPercent(3) * 0.01
+
+  If position > 0.6 Then 
+    position = position - 0.5
+    Motor.StartSync("BC", speed * position , speed)
+    Program.Delay(80)
+  ElseIf position < 0.4 Then 
+    Motor.StartSync("BC", speed, speed * position)
+    Program.Delay(80)
+  Else
+    Motor.Start("BC", speed)
+    Program.Delay(80)
+  EndIf
+  
+EndWhile
+

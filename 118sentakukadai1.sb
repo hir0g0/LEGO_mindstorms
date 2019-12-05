@@ -1,0 +1,43 @@
+n = 0
+state = 1
+degree = 0
+diameter_axletree = 120
+diameter_tire = 55
+
+While "True"
+  LCD.StopUpdate()
+  LCD.Clear()
+  LCD.Text(1, 0, 20, 1, "Degree="+degree)
+  LCD.Update()
+
+  n = Math.GetRandomNumber(360)
+  rotate = (n * diameter_axletree) / diameter_tire
+  
+  If state = 1 Then
+    LCD.Text(1, 0, 10, 1, "n="+n)
+    LCD.Update()
+  ElseIf state = -1 Then
+    n = -n
+    LCD.Text(1, 0, 10, 1, "n="+n)
+    LCD.Update()
+  EndIf
+  
+  Motor.Start("BC", 20)
+  Program.Delay(1000)
+  
+  If state = 1 Then
+    Motor.MoveSync("BC", 20, -20, rotate, "True")
+  ElseIf state = -1 Then
+    Motor.MoveSync("BC", -20, 20, rotate, "True")
+  EndIf
+  
+  degree = degree + n
+  If degree < 0 Then
+    degree = 360 - degree
+  ElseIf degree > 360 Then
+    degree = degree - 360
+  EndIf
+  state = -state
+  
+EndWhile
+  
