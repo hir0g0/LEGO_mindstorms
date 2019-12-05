@@ -1,0 +1,18 @@
+Sensor.SetMode(4,0)
+USvalue = 0
+
+While "True"
+  USvalue = Sensor.ReadRawValue(4, 0) / 10
+  
+  LCD.StopUpdate()
+  LCD.Text(2, 0, 0, 1, "USvalue = "+USvalue+" cm")
+  LCD.Update()
+  
+  Speaker.Tone(1, USvalue * 100, 500)
+  Speaker.Wait()
+  
+  Program.Delay(500)
+  
+  LCD.Clear()
+EndWhile
+

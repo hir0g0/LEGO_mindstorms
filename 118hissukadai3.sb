@@ -1,0 +1,43 @@
+state = 1
+USvalue = 0
+diameter_axletree = 120
+diameter_tire = 55
+degree = 90
+rotate = (degree * diameter_axletree) / diameter_tire
+
+While "True"
+  LCD.StopUpdate()
+  LCD.Clear()
+  
+  USvalue = Sensor.ReadRawValue(4,0)
+  LCD.Text(1, 0, 30, 1, "USvalue="+USvalue)
+  LCD.Update()
+
+  touchvalue = Sensor.ReadPercent(1)
+  If touchvalue = 100 Then
+    While Sensor.ReadPercent(1) > 50
+    EndWhile
+      state = -state
+  EndIf
+  LCD.Text(1, 0, 20, 1, "Touchvalue="+touchvalue)
+  LCD.Update()
+  
+  If state = 1 Then
+    LCD.Text(1, 0, 10, 1, "Stop")
+    LCD.Update()
+    Motor.Start("BC", 0)
+  Else
+      If USvalue < 60 Then
+        LCD.Text(1, 0, 10, 1, "Avoiding")
+        LCD.Update()
+        Motor.MoveSync("BC",20,-20,rotate,"True")
+      Else
+        LCD.Text(1, 0, 10, 1, "Running")
+        LCD.Update()
+        Motor.Start("BC", 20)
+      EndIf
+  EndIf
+
+  Program.Delay(80)
+EndWhile
+
